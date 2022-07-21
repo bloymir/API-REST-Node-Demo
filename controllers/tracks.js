@@ -7,14 +7,12 @@ const {handleHttpError} = require('../utils/handleError')
  * @param {*} res 
  */
 const getItems = async (req, res) => {
-
     try{
         const data = await tracksModel.find({})
         res.send({data})
     }catch(e){
         handleHttpError(req, "ERROR_GET_ITEMS")
-    }
-    
+    } 
 };
 
 /**
@@ -22,7 +20,16 @@ const getItems = async (req, res) => {
  * @param {*} req 
  * @param {*} res 
  */
-const getItem = (req, res) => {};
+const getItem = async (req, res) => {
+    try{
+        req = matchedData(req)
+        const {id} = req
+        const data = await tracksModel.findById(id)
+        res.send({data})
+    }catch(e){
+        handleHttpError(req, "ERROR_GET_ITEM")
+    }
+};
 
 /**
  * Crar un Registro
@@ -44,13 +51,33 @@ const createItem = async (req, res) => {
  * @param {*} req 
  * @param {*} res 
  */
-const udpdateItem = (req, res) => {};
+const udpdateItem = async (req, res) => {
+    try{
+        const {id, ...body} = matchedData(req)
+        const data = await tracksModel.findOneAndUpdate(
+            id, body
+        )
+        res.send({data})
+    }catch(e){
+        handleHttpError(res, "ERROR_UPDATE_ITEM")
+    }  
+};
 
 /**
  * Eliminar un Registro
  * @param {*} req 
  * @param {*} res 
  */
-const deleteItem = (req, res) => {};
+const deleteItem = async (req, res) => {
+    try{
+        req = matchedData(req)
+        const {id} = req
+        const data = await tracksModel.deleteOne({_id:id})
+        res.send({data})
+    }catch(e){
+        console.log(e)
+        handleHttpError(res, "ERROR_DELETE_ITEM")
+    }  
+};
 
 module.exports = {getItems, getItem, createItem, udpdateItem, deleteItem};
