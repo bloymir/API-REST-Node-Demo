@@ -11,7 +11,7 @@ const TracksScheme = new mongoose.Schema(
         cover: {
             type: String,
             validate: {
-                valitor: (req) => {
+                validator: (req) => {
                     return true;
                 },
                 message: "ERROR_URL",
@@ -29,7 +29,7 @@ const TracksScheme = new mongoose.Schema(
             }
         },
         duration: {
-            star: {
+            start: {
                 type: Number,
             },
             end: {
