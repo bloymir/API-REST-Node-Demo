@@ -11,7 +11,7 @@ const getItems = async (req, res) => {
         const data = await tracksModel.find({})
         res.send({data})
     }catch(e){
-        handleHttpError(req, "ERROR_GET_ITEMS")
+        handleHttpError(res, "ERROR_GET_ITEMS")
     } 
 };
 
@@ -27,7 +27,7 @@ const getItem = async (req, res) => {
         const data = await tracksModel.findById(id)
         res.send({data})
     }catch(e){
-        handleHttpError(req, "ERROR_GET_ITEM")
+        handleHttpError(res, "ERROR_GET_ITEM")
     }
 };
 
@@ -72,7 +72,7 @@ const deleteItem = async (req, res) => {
     try{
         req = matchedData(req)
         const {id} = req
-        const data = await tracksModel.deleteOne({_id:id})
+        const data = await tracksModel.delete({_id:id})
         res.send({data})
     }catch(e){
         console.log(e)
